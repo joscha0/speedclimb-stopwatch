@@ -40,6 +40,9 @@ class HomeView extends ConsumerWidget {
           currentIndex: pageIndex,
           onTap: (index) {
             ref.read(pageIndexProvider.notifier).state = index;
+            controller.animateToPage(index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease);
           },
           items: const [
             BottomNavigationBarItem(
