@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
 import 'package:speedclimbing/views/home_view.dart';
+import 'package:speedclimbing/widgets/flight_animation.dart';
 
 class TimeView extends ConsumerStatefulWidget {
   const TimeView({super.key});
@@ -55,6 +56,7 @@ class _TimeViewState extends ConsumerState<TimeView> {
           children: [
             Hero(
               tag: 'timeLabel',
+              flightShuttleBuilder: flightShuttleBuilder,
               child: Text(
                   '${stopwatch.elapsed.inSeconds.toString().padLeft(2, '0')}.${stopwatch.elapsed.inMilliseconds.remainder(1000).toString().padLeft(3, '0')}',
                   style: const TextStyle(fontSize: 52, fontFeatures: [
