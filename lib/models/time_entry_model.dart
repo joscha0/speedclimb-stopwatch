@@ -7,4 +7,6 @@ class TimeEntry {
   DateTime? date;
   int? duration; // in milliseconds
   bool? didFinish;
+
+  TimeEntry({this.date, this.duration, this.didFinish});
 }

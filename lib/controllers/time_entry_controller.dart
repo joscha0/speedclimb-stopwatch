@@ -6,12 +6,7 @@ class TimeEntryController {
 
   TimeEntryController(this.isar);
 
-  Future<void> addTimeEntry(DateTime date, int duration, bool didFinish) async {
-    final newTimeEntry = TimeEntry()
-      ..date = date
-      ..duration = duration
-      ..didFinish = didFinish;
-
+  Future<void> addTimeEntry(TimeEntry newTimeEntry) async {
     await isar.writeTxn(() async {
       await isar.timeEntrys.put(newTimeEntry);
     });

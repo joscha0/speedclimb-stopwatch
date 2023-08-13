@@ -4,7 +4,9 @@ import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
+import 'package:speedclimbing/providers/time_entry_provider.dart';
 import 'package:speedclimbing/views/home_view.dart';
 import 'package:speedclimbing/widgets/flight_animation.dart';
 
@@ -73,8 +75,14 @@ class _TimeViewState extends ConsumerState<TimeView> {
     );
   }
 
-  void saveTime() {
-    ref.read(currentTimeProvider.notifier).state = stopwatch.elapsed;
+  void saveTime() async {
+    final timeController = await ref.read(timeEntryControllerProvider.future);
+    TimeEntry newEntry = TimeEntry(
+        date: DateTime.now(),
+        duration: stopwatch.elapsed.inMilliseconds,
+        didFinish: true);
+    timeController.addTimeEntry(newEntry);
+    ref.read(currentTimeProvider.notifier).state = newEntry;
     goHome();
   }
 
