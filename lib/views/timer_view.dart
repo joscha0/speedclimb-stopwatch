@@ -17,20 +17,17 @@ class TimerView extends ConsumerStatefulWidget {
 }
 
 class _TimerViewState extends ConsumerState<TimerView> {
-  bool isDNF = false;
-
   void updateDNF(TimeEntry currentTime, bool newIsDNF) async {
     TimeEntryController timeEntryController =
         await ref.watch(timeEntryControllerProvider.future);
     timeEntryController.updateDNF(currentTime, newIsDNF);
-    setState(() {
-      isDNF = newIsDNF;
-    });
+    ref.read(currentDNFProvider.notifier).update((state) => newIsDNF);
   }
 
   @override
   Widget build(BuildContext context) {
     TimeEntry? currentTime = ref.watch(currentTimeProvider);
+    bool currentDNF = ref.watch(currentDNFProvider);
     return Center(
         child: currentTime != null
             ? Column(
@@ -40,13 +37,13 @@ class _TimerViewState extends ConsumerState<TimerView> {
                   Hero(
                     tag: 'timeLabel',
                     flightShuttleBuilder: flightShuttleBuilder,
-                    child: isDNF
+                    child: currentDNF
                         ? const Text(
                             'DNF',
                             style: TextStyle(fontSize: 52),
                           )
                         : Text(
-                            '${Duration(milliseconds: currentTime.duration ?? 0).inSeconds.toString().padLeft(2, '0')}.${(currentTime.duration ?? 0).remainder(1000).toString().padLeft(3, '0')}',
+                            '${Duration(milliseconds: currentTime.duration).inSeconds.toString().padLeft(2, '0')}.${(currentTime.duration).remainder(1000).toString().padLeft(3, '0')}',
                             style: const TextStyle(
                                 fontSize: 52,
                                 fontFeatures: [
@@ -57,7 +54,7 @@ class _TimerViewState extends ConsumerState<TimerView> {
                   const SizedBox(
                     height: 10,
                   ),
-                  isDNF
+                  currentDNF
                       ? IconButton(
                           onPressed: () {
                             updateDNF(currentTime, false);

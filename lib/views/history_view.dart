@@ -36,11 +36,10 @@ class HistoryView extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(timeEntry.date.toString()),
-                                timeEntry.isDNF ?? false
+                                timeEntry.isDNF
                                     ? const Text('DNF')
                                     : Text(Duration(
-                                            milliseconds:
-                                                timeEntry.duration ?? 0)
+                                            milliseconds: timeEntry.duration)
                                         .toString()),
                               ],
                             )),

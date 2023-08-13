@@ -74,9 +74,9 @@ TimeEntry _timeEntryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = TimeEntry(
-    date: reader.readDateTimeOrNull(offsets[0]),
-    duration: reader.readLongOrNull(offsets[1]),
-    isDNF: reader.readBoolOrNull(offsets[2]),
+    date: reader.readDateTime(offsets[0]),
+    duration: reader.readLong(offsets[1]),
+    isDNF: reader.readBool(offsets[2]),
   );
   object.id = id;
   return object;
@@ -90,11 +90,11 @@ P _timeEntryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -191,24 +191,8 @@ extension TimeEntryQueryWhere
 
 extension TimeEntryQueryFilter
     on QueryBuilder<TimeEntry, TimeEntry, QFilterCondition> {
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> dateIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'date',
-      ));
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> dateIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'date',
-      ));
-    });
-  }
-
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> dateEqualTo(
-      DateTime? value) {
+      DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'date',
@@ -218,7 +202,7 @@ extension TimeEntryQueryFilter
   }
 
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> dateGreaterThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -231,7 +215,7 @@ extension TimeEntryQueryFilter
   }
 
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> dateLessThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -244,8 +228,8 @@ extension TimeEntryQueryFilter
   }
 
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> dateBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    DateTime lower,
+    DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -260,25 +244,8 @@ extension TimeEntryQueryFilter
     });
   }
 
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> durationIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'duration',
-      ));
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition>
-      durationIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'duration',
-      ));
-    });
-  }
-
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> durationEqualTo(
-      int? value) {
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'duration',
@@ -288,7 +255,7 @@ extension TimeEntryQueryFilter
   }
 
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> durationGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -301,7 +268,7 @@ extension TimeEntryQueryFilter
   }
 
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> durationLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -314,8 +281,8 @@ extension TimeEntryQueryFilter
   }
 
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> durationBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -383,24 +350,8 @@ extension TimeEntryQueryFilter
     });
   }
 
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> isDNFIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isDNF',
-      ));
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> isDNFIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isDNF',
-      ));
-    });
-  }
-
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> isDNFEqualTo(
-      bool? value) {
+      bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isDNF',
@@ -534,19 +485,19 @@ extension TimeEntryQueryProperty
     });
   }
 
-  QueryBuilder<TimeEntry, DateTime?, QQueryOperations> dateProperty() {
+  QueryBuilder<TimeEntry, DateTime, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
     });
   }
 
-  QueryBuilder<TimeEntry, int?, QQueryOperations> durationProperty() {
+  QueryBuilder<TimeEntry, int, QQueryOperations> durationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'duration');
     });
   }
 
-  QueryBuilder<TimeEntry, bool?, QQueryOperations> isDNFProperty() {
+  QueryBuilder<TimeEntry, bool, QQueryOperations> isDNFProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isDNF');
     });
