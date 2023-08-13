@@ -14,9 +14,13 @@ class TimerView extends ConsumerWidget {
         onPressed: () {
           Navigator.of(context).pushReplacement(
             PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const TimeView(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const TimeView(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
           );
         },
         style: ElevatedButton.styleFrom(
