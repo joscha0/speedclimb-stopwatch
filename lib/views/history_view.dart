@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
 import 'package:speedclimbing/widgets/placeholder_card.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HistoryView extends ConsumerWidget {
   const HistoryView({super.key});
@@ -17,6 +19,45 @@ class HistoryView extends ConsumerWidget {
         child: timeEntries.when(
           data: (logs) => Column(
             children: [
+              SizedBox(
+                height: 300,
+                child: SfCartesianChart(
+                    primaryXAxis: DateTimeAxis(),
+                    trackballBehavior: TrackballBehavior(
+                      enable: true,
+                      markerSettings: const TrackballMarkerSettings(
+                        color: Colors.red,
+                        markerVisibility: TrackballVisibilityMode.visible,
+                        height: 10,
+                        width: 10,
+                        borderWidth: 1,
+                        borderColor: Colors.white,
+                      ),
+                      hideDelay: 4000,
+                      activationMode: ActivationMode.singleTap,
+                      tooltipSettings: const InteractiveTooltip(
+                        format: 'point.x : point.y',
+                      ),
+                      shouldAlwaysShow: false,
+                    ),
+                    zoomPanBehavior: ZoomPanBehavior(
+                      zoomMode: ZoomMode.x,
+                      enablePinching: true,
+                      enablePanning: true,
+                      enableDoubleTapZooming: true,
+                      enableMouseWheelZooming: true,
+                      enableSelectionZooming: true,
+                    ),
+                    series: <LineSeries<TimeEntry, DateTime>>[
+                      LineSeries<TimeEntry, DateTime>(
+                        width: 4,
+                        color: Colors.red,
+                        dataSource: logs,
+                        xValueMapper: (TimeEntry log, _) => log.date,
+                        yValueMapper: (TimeEntry log, _) => log.duration / 1000,
+                      )
+                    ]),
+              ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
