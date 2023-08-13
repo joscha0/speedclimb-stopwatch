@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
@@ -18,6 +19,7 @@ class _TimeViewState extends ConsumerState<TimeView> {
   final stopwatch = Stopwatch();
   late Timer _timer;
   String text = 'At your marks';
+  static AudioPlayer player = new AudioPlayer();
 
   void startTimer() {
     stopwatch.start();
@@ -34,18 +36,18 @@ class _TimeViewState extends ConsumerState<TimeView> {
         text = 'Ready';
       });
       _timer = Timer(const Duration(seconds: 1), () {
+        player.play(AssetSource("880.wav"));
         setState(() {
-          text = 'First Beep';
+          text = '1';
         });
         _timer = Timer(const Duration(seconds: 1), () {
+          player.play(AssetSource("880.wav"));
           setState(() {
-            text = 'Second Beep';
+            text = '2';
           });
           _timer = Timer(const Duration(seconds: 1), () {
-            setState(() {
-              text = 'GO';
-              startTimer();
-            });
+            player.play(AssetSource("1760.wav"));
+            startTimer();
           });
         });
       });
