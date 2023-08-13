@@ -14,7 +14,25 @@ class HomeView extends ConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Speed Climbing Timer'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/logo.png',
+                height: 80,
+              ),
+              const Text(
+                'Speed\nClimbing\nTimer',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {},
+            ),
+          ],
         ),
         body: PageView(
           controller: controller,
