@@ -2,16 +2,18 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:speedclimbing/providers/current_time_provider.dart';
 import 'package:speedclimbing/views/home_view.dart';
 
-class TimeView extends StatefulWidget {
+class TimeView extends ConsumerStatefulWidget {
   const TimeView({super.key});
 
   @override
-  State<TimeView> createState() => _TimeViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _TimeViewState();
 }
 
-class _TimeViewState extends State<TimeView> {
+class _TimeViewState extends ConsumerState<TimeView> {
   final stopwatch = Stopwatch();
   late Timer _timer;
 
@@ -30,6 +32,19 @@ class _TimeViewState extends State<TimeView> {
     super.dispose();
   }
 
+  void saveTime() {
+    ref.read(currentTimeProvider.notifier).state = stopwatch.elapsed;
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const HomeView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child;
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +53,14 @@ class _TimeViewState extends State<TimeView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-                '${stopwatch.elapsed.inSeconds.toString().padLeft(2, '0')}.${stopwatch.elapsed.inMilliseconds.remainder(1000).toString().padLeft(3, '0')}',
-                style: const TextStyle(fontSize: 52, fontFeatures: [
-                  FontFeature.tabularFigures(),
-                ])),
+            Hero(
+              tag: 'timeLabel',
+              child: Text(
+                  '${stopwatch.elapsed.inSeconds.toString().padLeft(2, '0')}.${stopwatch.elapsed.inMilliseconds.remainder(1000).toString().padLeft(3, '0')}',
+                  style: const TextStyle(fontSize: 52, fontFeatures: [
+                    FontFeature.tabularFigures(),
+                  ])),
+            ),
             const Row(),
             const SizedBox(
               height: 100,
@@ -50,17 +68,10 @@ class _TimeViewState extends State<TimeView> {
             Hero(
               tag: 'timeButton',
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => const HomeView(),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero),
-                  );
-                },
+                onPressed: () => saveTime(),
                 style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  padding: EdgeInsets.all(60),
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(70),
                   backgroundColor: Colors.red, // <-- Button color
                   foregroundColor: Colors.white, // <-- Splash color
                 ),
