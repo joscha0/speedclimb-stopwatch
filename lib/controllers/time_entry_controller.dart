@@ -15,4 +15,19 @@ class TimeEntryController {
   Future<List<TimeEntry>> getTimeEntries() async {
     return isar.timeEntrys.where().findAll();
   }
+
+  Future<void> deleteTimeEntry(int id) async {
+    await isar.writeTxn(() async {
+      await isar.timeEntrys.delete(id);
+    });
+  }
+
+  Future<void> updateDNF(TimeEntry timeEntry, bool isDNF) async {
+    print(timeEntry.id);
+
+    await isar.writeTxn(() async {
+      timeEntry.didFinish = !isDNF;
+      await isar.timeEntrys.put(timeEntry);
+    });
+  }
 }

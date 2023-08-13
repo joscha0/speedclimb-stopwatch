@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:speedclimbing/controllers/time_entry_controller.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
+import 'package:speedclimbing/providers/time_entry_provider.dart';
 import 'package:speedclimbing/views/time_view.dart';
 import 'package:speedclimbing/widgets/flight_animation.dart';
 
@@ -16,6 +18,15 @@ class TimerView extends ConsumerStatefulWidget {
 
 class _TimerViewState extends ConsumerState<TimerView> {
   bool isDNF = false;
+
+  void updateDNF(TimeEntry currentTime, bool newIsDNF) async {
+    TimeEntryController timeEntryController =
+        await ref.watch(timeEntryControllerProvider.future);
+    timeEntryController.updateDNF(currentTime, newIsDNF);
+    setState(() {
+      isDNF = newIsDNF;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +60,7 @@ class _TimerViewState extends ConsumerState<TimerView> {
                   isDNF
                       ? IconButton(
                           onPressed: () {
-                            setState(() {
-                              isDNF = false;
-                            });
+                            updateDNF(currentTime, false);
                           },
                           icon: const Icon(Icons.undo))
                       : Row(
@@ -62,9 +71,7 @@ class _TimerViewState extends ConsumerState<TimerView> {
                                 icon: const Icon(Icons.close)),
                             IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    isDNF = true;
-                                  });
+                                  updateDNF(currentTime, true);
                                 },
                                 icon: const Icon(Icons.block))
                           ],
