@@ -80,7 +80,7 @@ class _TimeViewState extends ConsumerState<TimeView> {
     TimeEntry newEntry = TimeEntry(
         date: DateTime.now(),
         duration: stopwatch.elapsed.inMilliseconds,
-        didFinish: true);
+        isDNF: false);
     timeController.addTimeEntry(newEntry);
     ref.read(currentTimeProvider.notifier).state = newEntry;
     goHome();

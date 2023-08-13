@@ -6,7 +6,7 @@ class TimeEntry {
   Id id = Isar.autoIncrement;
   DateTime? date;
   int? duration; // in milliseconds
-  bool? didFinish;
+  bool? isDNF;
 
-  TimeEntry({this.date, this.duration, this.didFinish});
+  TimeEntry({this.date, this.duration, this.isDNF});
 }

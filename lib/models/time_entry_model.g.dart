@@ -22,15 +22,15 @@ const TimeEntrySchema = CollectionSchema(
       name: r'date',
       type: IsarType.dateTime,
     ),
-    r'didFinish': PropertySchema(
-      id: 1,
-      name: r'didFinish',
-      type: IsarType.bool,
-    ),
     r'duration': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'duration',
       type: IsarType.long,
+    ),
+    r'isDNF': PropertySchema(
+      id: 2,
+      name: r'isDNF',
+      type: IsarType.bool,
     )
   },
   estimateSize: _timeEntryEstimateSize,
@@ -63,8 +63,8 @@ void _timeEntrySerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.date);
-  writer.writeBool(offsets[1], object.didFinish);
-  writer.writeLong(offsets[2], object.duration);
+  writer.writeLong(offsets[1], object.duration);
+  writer.writeBool(offsets[2], object.isDNF);
 }
 
 TimeEntry _timeEntryDeserialize(
@@ -73,10 +73,11 @@ TimeEntry _timeEntryDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = TimeEntry();
-  object.date = reader.readDateTimeOrNull(offsets[0]);
-  object.didFinish = reader.readBoolOrNull(offsets[1]);
-  object.duration = reader.readLongOrNull(offsets[2]);
+  final object = TimeEntry(
+    date: reader.readDateTimeOrNull(offsets[0]),
+    duration: reader.readLongOrNull(offsets[1]),
+    isDNF: reader.readBoolOrNull(offsets[2]),
+  );
   object.id = id;
   return object;
 }
@@ -91,9 +92,9 @@ P _timeEntryDeserializeProp<P>(
     case 0:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 1:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 2:
       return (reader.readLongOrNull(offset)) as P;
+    case 2:
+      return (reader.readBoolOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -259,33 +260,6 @@ extension TimeEntryQueryFilter
     });
   }
 
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> didFinishIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'didFinish',
-      ));
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition>
-      didFinishIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'didFinish',
-      ));
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> didFinishEqualTo(
-      bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'didFinish',
-        value: value,
-      ));
-    });
-  }
-
   QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> durationIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -408,6 +382,32 @@ extension TimeEntryQueryFilter
       ));
     });
   }
+
+  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> isDNFIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isDNF',
+      ));
+    });
+  }
+
+  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> isDNFIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isDNF',
+      ));
+    });
+  }
+
+  QueryBuilder<TimeEntry, TimeEntry, QAfterFilterCondition> isDNFEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isDNF',
+        value: value,
+      ));
+    });
+  }
 }
 
 extension TimeEntryQueryObject
@@ -429,18 +429,6 @@ extension TimeEntryQuerySortBy on QueryBuilder<TimeEntry, TimeEntry, QSortBy> {
     });
   }
 
-  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> sortByDidFinish() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'didFinish', Sort.asc);
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> sortByDidFinishDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'didFinish', Sort.desc);
-    });
-  }
-
   QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> sortByDuration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duration', Sort.asc);
@@ -450,6 +438,18 @@ extension TimeEntryQuerySortBy on QueryBuilder<TimeEntry, TimeEntry, QSortBy> {
   QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> sortByDurationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duration', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> sortByIsDNF() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDNF', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> sortByIsDNFDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDNF', Sort.desc);
     });
   }
 }
@@ -465,18 +465,6 @@ extension TimeEntryQuerySortThenBy
   QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> thenByDidFinish() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'didFinish', Sort.asc);
-    });
-  }
-
-  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> thenByDidFinishDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'didFinish', Sort.desc);
     });
   }
 
@@ -503,6 +491,18 @@ extension TimeEntryQuerySortThenBy
       return query.addSortBy(r'id', Sort.desc);
     });
   }
+
+  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> thenByIsDNF() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDNF', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TimeEntry, TimeEntry, QAfterSortBy> thenByIsDNFDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDNF', Sort.desc);
+    });
+  }
 }
 
 extension TimeEntryQueryWhereDistinct
@@ -513,15 +513,15 @@ extension TimeEntryQueryWhereDistinct
     });
   }
 
-  QueryBuilder<TimeEntry, TimeEntry, QDistinct> distinctByDidFinish() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'didFinish');
-    });
-  }
-
   QueryBuilder<TimeEntry, TimeEntry, QDistinct> distinctByDuration() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'duration');
+    });
+  }
+
+  QueryBuilder<TimeEntry, TimeEntry, QDistinct> distinctByIsDNF() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isDNF');
     });
   }
 }
@@ -540,15 +540,15 @@ extension TimeEntryQueryProperty
     });
   }
 
-  QueryBuilder<TimeEntry, bool?, QQueryOperations> didFinishProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'didFinish');
-    });
-  }
-
   QueryBuilder<TimeEntry, int?, QQueryOperations> durationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'duration');
+    });
+  }
+
+  QueryBuilder<TimeEntry, bool?, QQueryOperations> isDNFProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isDNF');
     });
   }
 }

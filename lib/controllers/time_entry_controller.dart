@@ -26,7 +26,7 @@ class TimeEntryController {
     print(timeEntry.id);
 
     await isar.writeTxn(() async {
-      timeEntry.didFinish = !isDNF;
+      timeEntry.isDNF = isDNF;
       await isar.timeEntrys.put(timeEntry);
     });
   }
