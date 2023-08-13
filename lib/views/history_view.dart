@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
 import 'package:speedclimbing/widgets/placeholder_card.dart';
@@ -76,12 +77,15 @@ class HistoryView extends ConsumerWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(timeEntry.date.toString()),
+                                Text(DateFormat('yyyy-MM-dd hh:mm')
+                                    .format(timeEntry.date)),
                                 timeEntry.isDNF
                                     ? const Text('DNF')
-                                    : Text(Duration(
-                                            milliseconds: timeEntry.duration)
-                                        .toString()),
+                                    : Text(
+                                        "${Duration(milliseconds: timeEntry.duration).inSeconds.toString().padLeft(2, '0')}.${timeEntry.duration.remainder(1000).toString().padLeft(3, '0')}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
                               ],
                             )),
                       ),
