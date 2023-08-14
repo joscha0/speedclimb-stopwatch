@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speedclimbing/providers/nav_provider.dart';
 import 'package:speedclimbing/views/history_view.dart';
+import 'package:speedclimbing/views/settings_view.dart';
 import 'package:speedclimbing/views/timer_view.dart';
 
 class HomeView extends ConsumerWidget {
@@ -21,7 +22,10 @@ class HomeView extends ConsumerWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SettingsView()));
+              },
             ),
           ],
         ),

@@ -23,8 +23,6 @@ class TimeEntryController {
   }
 
   Future<void> updateDNF(TimeEntry timeEntry, bool isDNF) async {
-    print(timeEntry.id);
-
     await isar.writeTxn(() async {
       timeEntry.isDNF = isDNF;
       await isar.timeEntrys.put(timeEntry);
