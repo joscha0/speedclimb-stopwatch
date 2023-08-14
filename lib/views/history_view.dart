@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
@@ -78,32 +79,57 @@ class HistoryView extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final timeEntry = logs[index];
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          color: Theme.of(context).cardColor,
-                          height: 50,
-                          child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(DateFormat('yyyy-MM-dd hh:mm')
-                                      .format(timeEntry.date)),
-                                  timeEntry.isDNF
-                                      ? const Text('DNF')
-                                      : Text(
-                                          "${Duration(milliseconds: timeEntry.duration).inSeconds.toString().padLeft(2, '0')}.${timeEntry.duration.remainder(1000).toString().padLeft(3, '0')}",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                ],
-                              )),
-                        ),
-                      ),
-                    );
+                        padding: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Slidable(
+                            endActionPane: ActionPane(
+                              motion: DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {},
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.black,
+                                  icon: Icons.edit,
+                                  label: 'Edit',
+                                ),
+                                SlidableAction(
+                                  onPressed: (context) {},
+                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Delete',
+                                ),
+                              ],
+                            ),
+                            child: Container(
+                              color: Theme.of(context).cardColor,
+                              height: 70,
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32, vertical: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        DateFormat('yyyy-MM-dd hh:mm')
+                                            .format(timeEntry.date),
+                                        style: const TextStyle(fontSize: 18),
+                                      ),
+                                      timeEntry.isDNF
+                                          ? const Text('DNF')
+                                          : Text(
+                                              "${Duration(milliseconds: timeEntry.duration).inSeconds.toString().padLeft(2, '0')}.${timeEntry.duration.remainder(1000).toString().padLeft(3, '0')}",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        ));
                   },
                 ),
               ],
