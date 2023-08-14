@@ -7,6 +7,7 @@ import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
 import 'package:speedclimbing/views/time_view.dart';
+import 'package:speedclimbing/widgets/confirm_delete_dialog.dart';
 import 'package:speedclimbing/widgets/flight_animation.dart';
 
 class TimerView extends ConsumerStatefulWidget {
@@ -64,7 +65,21 @@ class _TimerViewState extends ConsumerState<TimerView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  final bool? shouldDelete =
+                                      await showConfirmDeleteDialog(context);
+                                  if (shouldDelete != null && shouldDelete) {
+                                    TimeEntryController timeEntryController =
+                                        await ref.watch(
+                                            timeEntryControllerProvider.future);
+                                    timeEntryController.deleteTimeEntry(
+                                      currentTime.id,
+                                    );
+                                    ref
+                                        .read(currentTimeProvider.notifier)
+                                        .update((state) => null);
+                                  }
+                                },
                                 icon: const Icon(Icons.close)),
                             IconButton(
                                 onPressed: () {
