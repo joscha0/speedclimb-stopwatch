@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:speedclimbing/controllers/time_entry_controller.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
@@ -19,9 +18,7 @@ class TimerView extends ConsumerStatefulWidget {
 
 class _TimerViewState extends ConsumerState<TimerView> {
   void updateDNF(TimeEntry currentTime, bool newIsDNF) async {
-    TimeEntryController timeEntryController =
-        await ref.watch(timeEntryControllerProvider.future);
-    timeEntryController.updateDNF(currentTime, newIsDNF);
+    ref.read(timeEntriesProvider.notifier).updateDNF(currentTime, newIsDNF);
     ref.read(currentDNFProvider.notifier).update((state) => newIsDNF);
   }
 
@@ -69,12 +66,11 @@ class _TimerViewState extends ConsumerState<TimerView> {
                                   final bool? shouldDelete =
                                       await showConfirmDeleteDialog(context);
                                   if (shouldDelete != null && shouldDelete) {
-                                    TimeEntryController timeEntryController =
-                                        await ref.watch(
-                                            timeEntryControllerProvider.future);
-                                    timeEntryController.deleteTimeEntry(
-                                      currentTime.id,
-                                    );
+                                    ref
+                                        .read(timeEntriesProvider.notifier)
+                                        .deleteTimeEntry(
+                                          currentTime.id,
+                                        );
                                     ref
                                         .read(currentTimeProvider.notifier)
                                         .update((state) => null);

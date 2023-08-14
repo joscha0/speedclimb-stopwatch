@@ -76,12 +76,11 @@ class _TimeViewState extends ConsumerState<TimeView> {
   }
 
   void saveTime() async {
-    final timeController = await ref.read(timeEntryControllerProvider.future);
     TimeEntry newEntry = TimeEntry(
         date: DateTime.now(),
         duration: stopwatch.elapsed.inMilliseconds,
         isDNF: false);
-    timeController.addTimeEntry(newEntry);
+    ref.read(timeEntriesProvider.notifier).addTimeEntry(newEntry);
     ref.read(currentTimeProvider.notifier).state = newEntry;
     goHome();
   }

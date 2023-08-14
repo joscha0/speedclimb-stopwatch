@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
+import 'package:speedclimbing/widgets/confirm_delete_dialog.dart';
 import 'package:speedclimbing/widgets/placeholder_card.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -94,7 +95,15 @@ class HistoryView extends ConsumerWidget {
                                   label: 'Edit',
                                 ),
                                 SlidableAction(
-                                  onPressed: (context) {},
+                                  onPressed: (context) async {
+                                    final bool? shouldDelete =
+                                        await showConfirmDeleteDialog(context);
+                                    if (shouldDelete != null && shouldDelete) {
+                                      ref
+                                          .read(timeEntriesProvider.notifier)
+                                          .deleteTimeEntry(timeEntry.id);
+                                    }
+                                  },
                                   backgroundColor: Colors.red,
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
