@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:speedclimbing/controllers/time_entry_controller.dart';
-import 'package:speedclimbing/models/time_entry_model.dart';
-import 'package:speedclimbing/providers/time_entry_provider.dart';
 
 Future<bool?> showConfirmDeleteDialog(BuildContext context) async {
   return showDialog<bool>(
@@ -10,6 +6,8 @@ Future<bool?> showConfirmDeleteDialog(BuildContext context) async {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           title: const Text('Confirm Delete'),
           content: const SingleChildScrollView(
             child: ListBody(
@@ -18,6 +16,7 @@ Future<bool?> showConfirmDeleteDialog(BuildContext context) async {
               ],
             ),
           ),
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
