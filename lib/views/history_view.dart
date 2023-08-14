@@ -148,7 +148,7 @@ class HistoryView extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return const PlaceholderCard(
                       width: double.infinity,
-                      height: 50,
+                      height: 70,
                       borderRadius: 20,
                     );
                   },
