@@ -20,6 +20,10 @@ ThemeData darkTheme = ThemeData(
     unselectedItemColor: Colors.grey,
   ),
   primarySwatch: Colors.red,
+  checkboxTheme: CheckboxThemeData(
+    checkColor: MaterialStateProperty.all(Colors.white),
+    fillColor: MaterialStateProperty.all(Colors.red),
+  ),
 );
 
 class MainApp extends StatelessWidget {

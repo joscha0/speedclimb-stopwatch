@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
+import 'package:speedclimbing/widgets/add_time_dialog.dart';
 import 'package:speedclimbing/widgets/confirm_delete_dialog.dart';
 import 'package:speedclimbing/widgets/placeholder_card.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -17,7 +18,14 @@ class HistoryView extends ConsumerWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+              context: context,
+              barrierDismissible: false, // user must tap button!
+              builder: (context) {
+                return AddTimeDialog();
+              });
+        },
         backgroundColor: Colors.red,
         foregroundColor: Colors.white,
         elevation: 1,
@@ -141,6 +149,9 @@ class HistoryView extends ConsumerWidget {
                         ));
                   },
                 ),
+                const SizedBox(
+                  height: 100,
+                )
               ],
             ),
             loading: () => Column(
