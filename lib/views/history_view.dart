@@ -96,13 +96,6 @@ class HistoryView extends ConsumerWidget {
                               motion: DrawerMotion(),
                               children: [
                                 SlidableAction(
-                                  onPressed: (context) {},
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.black,
-                                  icon: Icons.edit,
-                                  label: 'Edit',
-                                ),
-                                SlidableAction(
                                   onPressed: (context) async {
                                     final bool? shouldDelete =
                                         await showConfirmDeleteDialog(context);
