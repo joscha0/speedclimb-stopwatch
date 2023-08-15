@@ -6,30 +6,13 @@ part of 'settings_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$settingsControllerHash() =>
-    r'2be2104f12c07813b064b1b589ffb001f1590cb2';
+String _$settingsHash() => r'a847d1882eaf16428e9d6894fa373cfe4e15c8c4';
 
-/// See also [settingsController].
-@ProviderFor(settingsController)
-final settingsControllerProvider =
-    AutoDisposeFutureProvider<SettingsController>.internal(
-  settingsController,
-  name: r'settingsControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$settingsControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef SettingsControllerRef
-    = AutoDisposeFutureProviderRef<SettingsController>;
-String _$settingsHash() => r'f99a1079a85f2220577e6e21366c56ce9d11ea60';
-
-/// See also [settings].
-@ProviderFor(settings)
-final settingsProvider = AutoDisposeFutureProvider<SettingsModel>.internal(
-  settings,
+/// See also [Settings].
+@ProviderFor(Settings)
+final settingsProvider =
+    AutoDisposeAsyncNotifierProvider<Settings, SettingsModel>.internal(
+  Settings.new,
   name: r'settingsProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$settingsHash,
@@ -37,6 +20,6 @@ final settingsProvider = AutoDisposeFutureProvider<SettingsModel>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef SettingsRef = AutoDisposeFutureProviderRef<SettingsModel>;
+typedef _$Settings = AutoDisposeAsyncNotifier<SettingsModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

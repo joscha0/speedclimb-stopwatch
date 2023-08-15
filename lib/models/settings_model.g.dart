@@ -21,6 +21,11 @@ const SettingsModelSchema = CollectionSchema(
       id: 0,
       name: r'atMarksTime',
       type: IsarType.long,
+    ),
+    r'readyProcedure': PropertySchema(
+      id: 1,
+      name: r'readyProcedure',
+      type: IsarType.bool,
     )
   },
   estimateSize: _settingsModelEstimateSize,
@@ -53,6 +58,7 @@ void _settingsModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.atMarksTime);
+  writer.writeBool(offsets[1], object.readyProcedure);
 }
 
 SettingsModel _settingsModelDeserialize(
@@ -61,9 +67,11 @@ SettingsModel _settingsModelDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = SettingsModel();
-  object.atMarksTime = reader.readLong(offsets[0]);
-  object.id = id;
+  final object = SettingsModel(
+    atMarksTime: reader.readLong(offsets[0]),
+    id: id,
+    readyProcedure: reader.readBool(offsets[1]),
+  );
   return object;
 }
 
@@ -76,6 +84,8 @@ P _settingsModelDeserializeProp<P>(
   switch (propertyId) {
     case 0:
       return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readBool(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -286,6 +296,16 @@ extension SettingsModelQueryFilter
       ));
     });
   }
+
+  QueryBuilder<SettingsModel, SettingsModel, QAfterFilterCondition>
+      readyProcedureEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'readyProcedure',
+        value: value,
+      ));
+    });
+  }
 }
 
 extension SettingsModelQueryObject
@@ -306,6 +326,20 @@ extension SettingsModelQuerySortBy
       sortByAtMarksTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'atMarksTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<SettingsModel, SettingsModel, QAfterSortBy>
+      sortByReadyProcedure() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyProcedure', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SettingsModel, SettingsModel, QAfterSortBy>
+      sortByReadyProcedureDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyProcedure', Sort.desc);
     });
   }
 }
@@ -336,6 +370,20 @@ extension SettingsModelQuerySortThenBy
       return query.addSortBy(r'id', Sort.desc);
     });
   }
+
+  QueryBuilder<SettingsModel, SettingsModel, QAfterSortBy>
+      thenByReadyProcedure() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyProcedure', Sort.asc);
+    });
+  }
+
+  QueryBuilder<SettingsModel, SettingsModel, QAfterSortBy>
+      thenByReadyProcedureDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyProcedure', Sort.desc);
+    });
+  }
 }
 
 extension SettingsModelQueryWhereDistinct
@@ -344,6 +392,13 @@ extension SettingsModelQueryWhereDistinct
       distinctByAtMarksTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'atMarksTime');
+    });
+  }
+
+  QueryBuilder<SettingsModel, SettingsModel, QDistinct>
+      distinctByReadyProcedure() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'readyProcedure');
     });
   }
 }
@@ -359,6 +414,12 @@ extension SettingsModelQueryProperty
   QueryBuilder<SettingsModel, int, QQueryOperations> atMarksTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'atMarksTime');
+    });
+  }
+
+  QueryBuilder<SettingsModel, bool, QQueryOperations> readyProcedureProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'readyProcedure');
     });
   }
 }
