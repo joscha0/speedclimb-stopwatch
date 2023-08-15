@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
+import 'package:speedclimbing/providers/settings_provider.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
 import 'package:speedclimbing/views/home_view.dart';
 import 'package:speedclimbing/widgets/flight_animation.dart';
@@ -20,7 +21,7 @@ class TimeView extends ConsumerStatefulWidget {
 class _TimeViewState extends ConsumerState<TimeView> {
   final stopwatch = Stopwatch();
   late Timer _timer;
-  String text = 'At your marks';
+  String text = '';
   static AudioPlayer player = new AudioPlayer();
 
   void startTimer() {
@@ -33,26 +34,39 @@ class _TimeViewState extends ConsumerState<TimeView> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 1), () {
-      setState(() {
-        text = 'Ready';
-      });
-      _timer = Timer(const Duration(seconds: 1), () {
-        player.play(AssetSource("880.wav"));
+
+    ref.read(settingsProvider.future).then((value) {
+      if (value.atMarksTime > 0) {
         setState(() {
-          text = '1';
+          text = 'At your marks';
         });
-        _timer = Timer(const Duration(seconds: 1), () {
-          player.play(AssetSource("880.wav"));
+      }
+      if (value.readyProcedure) {
+        _timer = Timer(Duration(milliseconds: value.atMarksTime), () {
           setState(() {
-            text = '2';
+            text = 'Ready';
           });
           _timer = Timer(const Duration(seconds: 1), () {
-            player.play(AssetSource("1760.wav"));
-            startTimer();
+            player.play(AssetSource("880.wav"));
+            setState(() {
+              text = '1';
+            });
+            _timer = Timer(const Duration(seconds: 1), () {
+              player.play(AssetSource("880.wav"));
+              setState(() {
+                text = '2';
+              });
+              _timer = Timer(const Duration(seconds: 1), () {
+                player.play(AssetSource("1760.wav"));
+                startTimer();
+              });
+            });
           });
         });
-      });
+      } else {
+        player.play(AssetSource("1760.wav"));
+        startTimer();
+      }
     });
   }
 

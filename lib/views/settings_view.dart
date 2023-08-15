@@ -57,7 +57,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                                     offset: data.atMarksTime.toString().length),
                               onChanged: (value) => ref
                                   .read(settingsProvider.notifier)
-                                  .setAtMarksTime(int.parse(value)),
+                                  .setAtMarksTime(int.tryParse(value) ?? 0),
                               keyboardType: TextInputType.number,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
