@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
@@ -133,6 +134,10 @@ class _AddTimeDialogState extends ConsumerState<AddTimeDialog> {
                         flex: 2,
                         child: TextField(
                           controller: durationSecondsController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           decoration: const InputDecoration(
                             label: Text("s"),
                             border: OutlineInputBorder(
@@ -150,6 +155,10 @@ class _AddTimeDialogState extends ConsumerState<AddTimeDialog> {
                         flex: 3,
                         child: TextField(
                           controller: durationMillisecondsController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           decoration: const InputDecoration(
                             label: Text("ms"),
                             border: OutlineInputBorder(
