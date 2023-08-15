@@ -14,7 +14,7 @@ class TimeEntries extends _$TimeEntries {
 
   Future<List<TimeEntry>> getTimeEntries() async {
     final isar = await ref.watch(isarInstanceProvider.future);
-    return isar.timeEntrys.where().findAll();
+    return isar.timeEntrys.where().sortByDateDesc().findAll();
   }
 
   Future<void> addTimeEntry(TimeEntry timeEntry) async {

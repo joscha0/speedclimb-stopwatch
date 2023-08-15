@@ -6,7 +6,7 @@ part of 'time_entry_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$timeEntriesHash() => r'ef38c78472f6c963ab053399b1cc8beab9f25ce8';
+String _$timeEntriesHash() => r'b4d880d0ec848d96874f0c7211b59a28d234761f';
 
 /// See also [TimeEntries].
 @ProviderFor(TimeEntries)
