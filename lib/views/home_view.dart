@@ -15,6 +15,7 @@ class HomeView extends ConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Image.asset(
             'assets/logo.png',
             height: 80,
