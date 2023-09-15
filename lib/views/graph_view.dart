@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -65,6 +67,24 @@ class HistoryGraphView extends ConsumerWidget {
                               log.duration / 1000,
                         )
                       ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Container(
+                    width: 250,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
+                    child: Text(
+                      "PB: ${Duration(milliseconds: logs.map((e) => e.duration).toList().reduce(min)).inSeconds.toString().padLeft(2, '0')}.${logs.map((e) => e.duration).toList().reduce(min).remainder(1000).toString().padLeft(3, '0')}",
+                      style: const TextStyle(fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 100,
