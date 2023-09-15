@@ -58,6 +58,8 @@ class HistoryGraphView extends ConsumerWidget {
                           width: 4,
                           color: Colors.red,
                           dataSource: logs,
+                          sortingOrder: SortingOrder.descending,
+                          sortFieldValueMapper: (datum, index) => datum.date,
                           xValueMapper: (TimeEntry log, _) => log.date,
                           yValueMapper: (TimeEntry log, _) =>
                               log.duration / 1000,
