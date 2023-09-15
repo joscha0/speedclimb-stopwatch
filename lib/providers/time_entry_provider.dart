@@ -5,6 +5,8 @@ import 'package:speedclimbing/providers/isar_provider.dart';
 
 part 'time_entry_provider.g.dart';
 
+enum SortBy { date, time }
+
 @riverpod
 class TimeEntries extends _$TimeEntries {
   @override
@@ -24,6 +26,24 @@ class TimeEntries extends _$TimeEntries {
         await isar.timeEntrys.put(timeEntry);
       });
       return await getTimeEntries();
+    });
+  }
+
+  Future<void> changeTimeEntryOrder(SortBy order, bool isAscending) async {
+    state = await AsyncValue.guard(() async {
+      final isar = await ref.watch(isarInstanceProvider.future);
+      switch (order) {
+        case SortBy.date:
+          if (isAscending) {
+            return isar.timeEntrys.where().sortByDate().findAll();
+          }
+          return isar.timeEntrys.where().sortByDateDesc().findAll();
+        case SortBy.time:
+          if (isAscending) {
+            return isar.timeEntrys.where().sortByDuration().findAll();
+          }
+          return isar.timeEntrys.where().sortByDurationDesc().findAll();
+      }
     });
   }
 

@@ -9,11 +9,20 @@ import 'package:speedclimbing/widgets/confirm_delete_dialog.dart';
 import 'package:speedclimbing/widgets/placeholder_card.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HistoryListView extends ConsumerWidget {
+class HistoryListView extends ConsumerStatefulWidget {
   const HistoryListView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _HistoryListViewState();
+}
+
+class _HistoryListViewState extends ConsumerState<HistoryListView> {
+  bool orderDateAscending = true;
+  bool orderTimeAscending = false;
+
+  @override
+  Widget build(BuildContext context) {
     final timeEntries = ref.watch(timeEntriesProvider);
 
     return Scaffold(
@@ -41,6 +50,46 @@ class HistoryListView extends ConsumerWidget {
           child: timeEntries.when(
             data: (logs) => Column(
               children: [
+                Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          ref
+                              .read(timeEntriesProvider.notifier)
+                              .changeTimeEntryOrder(
+                                  SortBy.date, orderDateAscending);
+                          setState(() {
+                            orderDateAscending = !orderDateAscending;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Icon(orderDateAscending
+                                ? Icons.arrow_upward
+                                : Icons.arrow_downward),
+                            const Text('Date')
+                          ],
+                        )),
+                    TextButton(
+                        onPressed: () {
+                          ref
+                              .read(timeEntriesProvider.notifier)
+                              .changeTimeEntryOrder(
+                                  SortBy.time, orderTimeAscending);
+                          setState(() {
+                            orderTimeAscending = !orderTimeAscending;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Icon(orderTimeAscending
+                                ? Icons.arrow_upward
+                                : Icons.arrow_downward),
+                            const Text("Time")
+                          ],
+                        ))
+                  ],
+                ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
