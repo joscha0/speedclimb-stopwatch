@@ -9,8 +9,8 @@ import 'package:speedclimbing/widgets/confirm_delete_dialog.dart';
 import 'package:speedclimbing/widgets/placeholder_card.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HistoryView extends ConsumerWidget {
-  const HistoryView({super.key});
+class HistoryListView extends ConsumerWidget {
+  const HistoryListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +23,7 @@ class HistoryView extends ConsumerWidget {
               context: context,
               barrierDismissible: false, // user must tap button!
               builder: (context) {
-                return AddTimeDialog();
+                return const AddTimeDialog();
               });
         },
         backgroundColor: Colors.red,
@@ -41,46 +41,6 @@ class HistoryView extends ConsumerWidget {
           child: timeEntries.when(
             data: (logs) => Column(
               children: [
-                SizedBox(
-                  height: 300,
-                  child: SfCartesianChart(
-                      primaryXAxis: DateTimeAxis(),
-                      trackballBehavior: TrackballBehavior(
-                        enable: true,
-                        markerSettings: const TrackballMarkerSettings(
-                          color: Colors.red,
-                          markerVisibility: TrackballVisibilityMode.visible,
-                          height: 10,
-                          width: 10,
-                          borderWidth: 1,
-                          borderColor: Colors.white,
-                        ),
-                        hideDelay: 4000,
-                        activationMode: ActivationMode.singleTap,
-                        tooltipSettings: const InteractiveTooltip(
-                          format: 'point.x : point.y',
-                        ),
-                        shouldAlwaysShow: false,
-                      ),
-                      zoomPanBehavior: ZoomPanBehavior(
-                        zoomMode: ZoomMode.x,
-                        enablePinching: true,
-                        enablePanning: true,
-                        enableDoubleTapZooming: true,
-                        enableMouseWheelZooming: true,
-                        enableSelectionZooming: true,
-                      ),
-                      series: <LineSeries<TimeEntry, DateTime>>[
-                        LineSeries<TimeEntry, DateTime>(
-                          width: 4,
-                          color: Colors.red,
-                          dataSource: logs,
-                          xValueMapper: (TimeEntry log, _) => log.date,
-                          yValueMapper: (TimeEntry log, _) =>
-                              log.duration / 1000,
-                        )
-                      ]),
-                ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -93,7 +53,7 @@ class HistoryView extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                           child: Slidable(
                             endActionPane: ActionPane(
-                              motion: DrawerMotion(),
+                              motion: const DrawerMotion(),
                               children: [
                                 SlidableAction(
                                   onPressed: (context) async {

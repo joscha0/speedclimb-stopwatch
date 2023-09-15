@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speedclimbing/providers/nav_provider.dart';
-import 'package:speedclimbing/views/history_view.dart';
+import 'package:speedclimbing/views/graph_view.dart';
+import 'package:speedclimbing/views/list_view.dart';
 import 'package:speedclimbing/views/settings_view.dart';
 import 'package:speedclimbing/views/timer_view.dart';
 
@@ -38,7 +39,8 @@ class HomeView extends ConsumerWidget {
           },
           children: const [
             TimerView(),
-            HistoryView(),
+            HistoryListView(),
+            HistoryGraphView(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -55,7 +57,11 @@ class HomeView extends ConsumerWidget {
               label: 'Timer',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.show_chart), label: 'History'),
+              icon: Icon(Icons.list),
+              label: 'History',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.show_chart), label: 'Graph'),
           ],
         ));
   }
