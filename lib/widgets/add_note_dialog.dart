@@ -23,7 +23,7 @@ class _AddNoteDialogState extends ConsumerState<AddNoteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Add Note"),
+      title: const Text("Update Note"),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       content: SingleChildScrollView(
