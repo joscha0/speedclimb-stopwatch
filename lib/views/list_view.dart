@@ -170,11 +170,6 @@ class _HistoryListViewState extends ConsumerState<HistoryListView> {
             ),
             loading: () => Column(
               children: [
-                const PlaceholderCard(
-                  width: double.infinity,
-                  height: 300,
-                  borderRadius: 20,
-                ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),

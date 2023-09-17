@@ -91,24 +91,12 @@ class HistoryGraphView extends ConsumerWidget {
                 )
               ],
             ),
-            loading: () => Column(
+            loading: () => const Column(
               children: [
-                const PlaceholderCard(
+                PlaceholderCard(
                   width: double.infinity,
                   height: 300,
                   borderRadius: 20,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const PlaceholderCard(
-                      width: double.infinity,
-                      height: 70,
-                      borderRadius: 20,
-                    );
-                  },
                 ),
               ],
             ),
