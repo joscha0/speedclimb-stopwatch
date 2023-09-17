@@ -182,8 +182,8 @@ class _HistoryListViewState extends ConsumerState<HistoryListView> {
                                                 fontWeight: FontWeight.bold),
                                           )),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 24, vertical: 8),
+                                        padding: const EdgeInsets.only(
+                                            left: 24, right: 24, bottom: 24),
                                         child: Text(timeEntry.notes),
                                       )
                                     ],
