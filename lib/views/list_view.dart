@@ -50,45 +50,57 @@ class _HistoryListViewState extends ConsumerState<HistoryListView> {
           child: timeEntries.when(
             data: (logs) => Column(
               children: [
-                Row(
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          ref
-                              .read(timeEntriesProvider.notifier)
-                              .changeTimeEntryOrder(
-                                  SortBy.date, orderDateAscending);
-                          setState(() {
-                            orderDateAscending = !orderDateAscending;
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Icon(orderDateAscending
-                                ? Icons.arrow_upward
-                                : Icons.arrow_downward),
-                            const Text('Date')
-                          ],
-                        )),
-                    TextButton(
-                        onPressed: () {
-                          ref
-                              .read(timeEntriesProvider.notifier)
-                              .changeTimeEntryOrder(
-                                  SortBy.time, orderTimeAscending);
-                          setState(() {
-                            orderTimeAscending = !orderTimeAscending;
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Icon(orderTimeAscending
-                                ? Icons.arrow_upward
-                                : Icons.arrow_downward),
-                            const Text("Time")
-                          ],
-                        ))
-                  ],
+                IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            ref
+                                .read(timeEntriesProvider.notifier)
+                                .changeTimeEntryOrder(
+                                    SortBy.date, orderDateAscending);
+                            setState(() {
+                              orderDateAscending = !orderDateAscending;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              const Text('Date'),
+                              const SizedBox(width: 5),
+                              Icon(orderDateAscending
+                                  ? Icons.arrow_upward
+                                  : Icons.arrow_downward),
+                            ],
+                          )),
+                      const SizedBox(width: 5),
+                      const VerticalDivider(
+                        color: Colors.grey,
+                        thickness: 1,
+                        indent: 5,
+                        endIndent: 5,
+                      ),
+                      const SizedBox(width: 5),
+                      TextButton(
+                          onPressed: () {
+                            ref
+                                .read(timeEntriesProvider.notifier)
+                                .changeTimeEntryOrder(
+                                    SortBy.time, orderTimeAscending);
+                            setState(() {
+                              orderTimeAscending = !orderTimeAscending;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              const Text("Time"),
+                              const SizedBox(width: 5),
+                              Icon(orderTimeAscending
+                                  ? Icons.arrow_upward
+                                  : Icons.arrow_downward),
+                            ],
+                          ))
+                    ],
+                  ),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
