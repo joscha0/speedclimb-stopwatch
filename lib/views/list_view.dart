@@ -53,6 +53,7 @@ class _HistoryListViewState extends ConsumerState<HistoryListView> {
               children: [
                 IntrinsicHeight(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
                           onPressed: () {
