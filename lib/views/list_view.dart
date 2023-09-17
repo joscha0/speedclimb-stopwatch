@@ -102,66 +102,80 @@ class _HistoryListViewState extends ConsumerState<HistoryListView> {
                     ],
                   ),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: logs.length,
-                  itemBuilder: (context, index) {
-                    final timeEntry = logs[index];
-                    return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                SlidableAutoCloseBehavior(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: logs.length,
+                    itemBuilder: (context, index) {
+                      final timeEntry = logs[index];
+                      return Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Slidable(
-                            endActionPane: ActionPane(
-                              motion: const DrawerMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) async {
-                                    final bool? shouldDelete =
-                                        await showConfirmDeleteDialog(context);
-                                    if (shouldDelete != null && shouldDelete) {
-                                      ref
-                                          .read(timeEntriesProvider.notifier)
-                                          .deleteTimeEntry(timeEntry.id);
-                                    }
-                                  },
-                                  backgroundColor: Colors.red,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: 'Delete',
-                                ),
-                              ],
-                            ),
-                            child: Container(
-                              color: Theme.of(context).cardColor,
-                              height: 70,
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 32, vertical: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        DateFormat('yyyy-MM-dd hh:mm')
-                                            .format(timeEntry.date),
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                      timeEntry.isDNF
-                                          ? const Text('DNF')
-                                          : Text(
-                                              "${Duration(milliseconds: timeEntry.duration).inSeconds.toString().padLeft(2, '0')}.${timeEntry.duration.remainder(1000).toString().padLeft(3, '0')}",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18),
-                                            ),
+                              groupTag: '0',
+                              endActionPane: ActionPane(
+                                motion: const DrawerMotion(),
+                                children: [
+                                  SlidableAction(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20)),
+                                    label: 'Edit',
+                                    icon: Icons.edit,
+                                    onPressed: (context) => {},
+                                  ),
+                                  SlidableAction(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20)),
+                                    onPressed: (context) async {
+                                      final bool? shouldDelete =
+                                          await showConfirmDeleteDialog(
+                                              context);
+                                      if (shouldDelete != null &&
+                                          shouldDelete) {
+                                        ref
+                                            .read(timeEntriesProvider.notifier)
+                                            .deleteTimeEntry(timeEntry.id);
+                                      }
+                                    },
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Delete',
+                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  color: Theme.of(context).cardColor,
+                                  child: ExpansionTile(
+                                    title: timeEntry.isDNF
+                                        ? const Text('DNF')
+                                        : Text(
+                                            "${Duration(milliseconds: timeEntry.duration).inSeconds.toString().padLeft(2, '0')}.${timeEntry.duration.remainder(1000).toString().padLeft(3, '0')}",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
+                                    subtitle: Text(
+                                      DateFormat('yyyy-MM-dd hh:mm')
+                                          .format(timeEntry.date),
+                                      style: const TextStyle(fontSize: 18),
+                                    ),
+                                    expandedCrossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    expandedAlignment: Alignment.centerLeft,
+                                    children: const [
+                                      Padding(
+                                        padding: EdgeInsets.all(24.0),
+                                        child: Text('notes'),
+                                      )
                                     ],
-                                  )),
-                            ),
-                          ),
-                        ));
-                  },
+                                  ),
+                                ),
+                              )));
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 100,
