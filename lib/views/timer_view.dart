@@ -6,6 +6,7 @@ import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/current_time_provider.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
 import 'package:speedclimbing/views/time_view.dart';
+import 'package:speedclimbing/widgets/add_note_dialog.dart';
 import 'package:speedclimbing/widgets/confirm_delete_dialog.dart';
 import 'package:speedclimbing/widgets/flight_animation.dart';
 
@@ -81,7 +82,15 @@ class _TimerViewState extends ConsumerState<TimerView> {
                                 onPressed: () {
                                   updateDNF(currentTime, true);
                                 },
-                                icon: const Icon(Icons.block))
+                                icon: const Icon(Icons.block)),
+                            IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AddNoteDialog(
+                                          currentTime: currentTime));
+                                },
+                                icon: const Icon(Icons.edit))
                           ],
                         ),
                   const SizedBox(

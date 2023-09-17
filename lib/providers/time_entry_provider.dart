@@ -67,4 +67,15 @@ class TimeEntries extends _$TimeEntries {
       return await getTimeEntries();
     });
   }
+
+  Future<void> updateNote(TimeEntry timeEntry, String newNote) async {
+    state = await AsyncValue.guard(() async {
+      final isar = await ref.watch(isarInstanceProvider.future);
+      await isar.writeTxn(() async {
+        timeEntry.notes = newNote;
+        await isar.timeEntrys.put(timeEntry);
+      });
+      return await getTimeEntries();
+    });
+  }
 }
