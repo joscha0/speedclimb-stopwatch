@@ -7,8 +7,13 @@ class TimeEntry {
   DateTime date;
   int duration; // in milliseconds
   bool isDNF;
+  String notes;
 
-  TimeEntry({required this.date, required this.duration, required this.isDNF});
+  TimeEntry(
+      {required this.date,
+      required this.duration,
+      required this.isDNF,
+      this.notes = ''});
 
   // TimeEntry? copyWith({DateTime? date, int? duration, bool? isDNF}) {
   //   return TimeEntry(

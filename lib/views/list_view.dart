@@ -165,10 +165,26 @@ class _HistoryListViewState extends ConsumerState<HistoryListView> {
                                     expandedCrossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     expandedAlignment: Alignment.centerLeft,
-                                    children: const [
+                                    children: [
+                                      const Divider(
+                                        color: Colors.grey,
+                                        thickness: 1,
+                                        indent: 15,
+                                        endIndent: 15,
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 24, vertical: 8),
+                                          child: Text(
+                                            "Notes",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          )),
                                       Padding(
-                                        padding: EdgeInsets.all(24.0),
-                                        child: Text('notes'),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 24, vertical: 8),
+                                        child: Text(timeEntry.notes),
                                       )
                                     ],
                                   ),
