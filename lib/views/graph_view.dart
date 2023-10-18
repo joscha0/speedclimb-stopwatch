@@ -24,73 +24,79 @@ class HistoryGraphView extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: timeEntries.when(
-            data: (logs) => Column(
-              children: [
-                SizedBox(
-                  height: 300,
-                  child: SfCartesianChart(
-                      primaryXAxis: DateTimeAxis(),
-                      trackballBehavior: TrackballBehavior(
-                        enable: true,
-                        markerSettings: const TrackballMarkerSettings(
-                          color: Colors.red,
-                          markerVisibility: TrackballVisibilityMode.visible,
-                          height: 10,
-                          width: 10,
-                          borderWidth: 1,
-                          borderColor: Colors.white,
+            data: (logs) => logs.isNotEmpty
+                ? Column(
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        child: SfCartesianChart(
+                            primaryXAxis: DateTimeAxis(),
+                            trackballBehavior: TrackballBehavior(
+                              enable: true,
+                              markerSettings: const TrackballMarkerSettings(
+                                color: Colors.red,
+                                markerVisibility:
+                                    TrackballVisibilityMode.visible,
+                                height: 10,
+                                width: 10,
+                                borderWidth: 1,
+                                borderColor: Colors.white,
+                              ),
+                              hideDelay: 4000,
+                              activationMode: ActivationMode.singleTap,
+                              tooltipSettings: const InteractiveTooltip(
+                                format: 'point.x : point.y',
+                              ),
+                              shouldAlwaysShow: false,
+                            ),
+                            zoomPanBehavior: ZoomPanBehavior(
+                              zoomMode: ZoomMode.x,
+                              enablePinching: true,
+                              enablePanning: true,
+                              enableDoubleTapZooming: true,
+                              enableMouseWheelZooming: true,
+                              enableSelectionZooming: true,
+                            ),
+                            series: <LineSeries<TimeEntry, DateTime>>[
+                              LineSeries<TimeEntry, DateTime>(
+                                width: 4,
+                                color: Colors.red,
+                                dataSource: logs,
+                                sortingOrder: SortingOrder.descending,
+                                sortFieldValueMapper: (datum, index) =>
+                                    datum.date,
+                                xValueMapper: (TimeEntry log, _) => log.date,
+                                yValueMapper: (TimeEntry log, _) =>
+                                    log.duration / 1000,
+                              )
+                            ]),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Container(
+                          width: 250,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                          ),
+                          child: Text(
+                            "PB: ${Duration(milliseconds: logs.map((e) => e.duration).toList().reduce(min)).inSeconds.toString().padLeft(2, '0')}.${logs.map((e) => e.duration).toList().reduce(min).remainder(1000).toString().padLeft(3, '0')}",
+                            style: const TextStyle(fontSize: 24),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        hideDelay: 4000,
-                        activationMode: ActivationMode.singleTap,
-                        tooltipSettings: const InteractiveTooltip(
-                          format: 'point.x : point.y',
-                        ),
-                        shouldAlwaysShow: false,
                       ),
-                      zoomPanBehavior: ZoomPanBehavior(
-                        zoomMode: ZoomMode.x,
-                        enablePinching: true,
-                        enablePanning: true,
-                        enableDoubleTapZooming: true,
-                        enableMouseWheelZooming: true,
-                        enableSelectionZooming: true,
-                      ),
-                      series: <LineSeries<TimeEntry, DateTime>>[
-                        LineSeries<TimeEntry, DateTime>(
-                          width: 4,
-                          color: Colors.red,
-                          dataSource: logs,
-                          sortingOrder: SortingOrder.descending,
-                          sortFieldValueMapper: (datum, index) => datum.date,
-                          xValueMapper: (TimeEntry log, _) => log.date,
-                          yValueMapper: (TimeEntry log, _) =>
-                              log.duration / 1000,
-                        )
-                      ]),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Container(
-                    width: 250,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2,
-                      ),
-                    ),
-                    child: Text(
-                      "PB: ${Duration(milliseconds: logs.map((e) => e.duration).toList().reduce(min)).inSeconds.toString().padLeft(2, '0')}.${logs.map((e) => e.duration).toList().reduce(min).remainder(1000).toString().padLeft(3, '0')}",
-                      style: const TextStyle(fontSize: 24),
-                      textAlign: TextAlign.center,
-                    ),
+                      const SizedBox(
+                        height: 100,
+                      )
+                    ],
+                  )
+                : const Center(
+                    child: Text("No data"),
                   ),
-                ),
-                const SizedBox(
-                  height: 100,
-                )
-              ],
-            ),
             loading: () => const Column(
               children: [
                 PlaceholderCard(
