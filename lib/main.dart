@@ -21,9 +21,11 @@ ThemeData darkTheme = ThemeData(
   ),
   primarySwatch: Colors.red,
   checkboxTheme: CheckboxThemeData(
-    checkColor: MaterialStateProperty.all(Colors.white),
-    fillColor: MaterialStateProperty.all(Colors.red),
-  ),
+      checkColor: MaterialStateProperty.all(Colors.white),
+      fillColor: MaterialStateProperty.resolveWith(((states) =>
+          states.any((element) => element == MaterialState.selected)
+              ? Colors.red
+              : Colors.transparent))),
 );
 
 class MainApp extends StatelessWidget {
