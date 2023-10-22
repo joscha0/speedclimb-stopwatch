@@ -2,12 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:speedclimbing/models/time_entry_model.dart';
 import 'package:speedclimbing/providers/time_entry_provider.dart';
-import 'package:speedclimbing/widgets/add_time_dialog.dart';
-import 'package:speedclimbing/widgets/confirm_delete_dialog.dart';
 import 'package:speedclimbing/widgets/placeholder_card.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
