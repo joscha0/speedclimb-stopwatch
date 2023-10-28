@@ -2,6 +2,11 @@
 
 # SpeedClimb Stopwatch
 
+<p>
+  <a href='https://play.google.com/store/apps/details?id=com.joscha0.speedclimbing&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' target="_blank"><img width=150 alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>  
+  <a href="https://apps.apple.com/us/app/speedclimb-stopwatch/id6469708441?itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 150px; height: 50px;  padding:10px;" target="_blank"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1697587200" alt="Download on the App Store" style="border-radius: 13px; width: 150px; height: 50px;"></a>
+ </p>
+
 Elevate your speed climbing performance with the SpeedClimb Stopwatch – the essential tool for athletes and climbing enthusiasts. Whether you're a seasoned speed climber or just starting your journey, this app empowers you to track your climbing times and evaluate your progress.
 
 <p align="middle">
